@@ -1,13 +1,13 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
+@Entity("admin")
 export class Admin {
-    @PrimaryGeneratedColumn({name: 'admin_id', type: 'int', unsigned: true})
-    adminId: number;
+  @PrimaryGeneratedColumn({ type: "int", name: "admin_id", unsigned: true })
+  adminId: number;
 
-    @Column({type: 'varchar', length: '64'})
-    username: string;
+  @Column("varchar", { name: "username", length: 64 })
+  username: string;
 
-    @Column({type: 'varchar', length: '255'})
-    password: string;
+  @Column("varchar", { name: "password", length: 255 })
+  password: string;
 }
