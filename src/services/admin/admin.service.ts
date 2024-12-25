@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { error } from 'console';
 import { Admin } from 'entities/admin.entity';
 import { AddAdminDto } from 'src/dtos/admin/add.admin.dto';
 import { EditAdminDto } from 'src/dtos/admin/edit.admin.dto';

@@ -22,7 +22,7 @@ export class AdminController {
     getById( @Param('id') adminId: number): Promise<Admin | ApiResponse>{
       return new Promise(async(resolve) => {
         let admin = await this.adminService.getById(adminId);
-        if(admin === undefined){
+        if(admin === null){
           resolve(new ApiResponse("error", -1002));
         }
 
@@ -30,12 +30,12 @@ export class AdminController {
       });
     }
 
-    @Put()
+    @Post()
     add( @Body() data: AddAdminDto ): Promise<Admin | ApiResponse>{
         return this.adminService.add(data);
     }
 
-    @Post(':id')
+    @Put(':id')
     edit( @Param('id') id: number, @Body() data: EditAdminDto ): Promise<Admin | ApiResponse> {
         return this.adminService.editById(id, data);
     }
