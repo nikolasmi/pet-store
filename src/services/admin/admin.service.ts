@@ -21,6 +21,16 @@ export class AdminService {
         return this.admin.findOne({ where: { adminId: id } });
     }
 
+    async getByUsername(username: string): Promise<Admin | null> {
+        const admin = await this.admin.findOne({where: {username: username}});
+
+        if(admin) {
+            return admin;
+        }
+
+        return null;
+    }
+
     add(data: AddAdminDto): Promise<Admin | ApiResponse> {
         const crypto = require('crypto');
 
