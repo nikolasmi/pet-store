@@ -12,6 +12,8 @@ import { User } from 'entities/user.entity';
 import { AdminController } from './controllers/api/admin.controller';
 import { UserController } from './controllers/api/user.controller';
 import { UserService } from './services/user/user.service';
+import { PetService } from './services/pet/pet.service';
+import { PetController } from './controllers/api/pet.controller';
 
 @Module({
   imports: [
@@ -33,10 +35,11 @@ import { UserService } from './services/user/user.service';
     }),
     TypeOrmModule.forFeature([ 
       Admin,
-      User
+      User,
+      Pet
     ])
   ],
-  controllers: [AppController, AdminController, UserController],
-  providers: [AdminService, UserService],
+  controllers: [AppController, AdminController, UserController, PetController],
+  providers: [AdminService, UserService, PetService],
 })
 export class AppModule {}

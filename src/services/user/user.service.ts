@@ -74,7 +74,6 @@ export class UserService {
         try {
             return await this.user.save(user);
         } catch (error) {
-            console.error("Error updating user:", error);
             return new ApiResponse("error", -1003, "Failed to update user.");
         }
     }
