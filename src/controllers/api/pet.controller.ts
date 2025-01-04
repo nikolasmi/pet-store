@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
-import { Pet } from "entities/pet.entity";
+import { Pet } from "src/entities/pet.entity";
 import { AddPetDto } from "src/dtos/pet/add.pet.dto";
 import { EditPetDto } from "src/dtos/pet/edit.pet.dto";
 import { ApiResponse } from "src/misc/api.response.class";

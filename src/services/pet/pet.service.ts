@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { error } from "console";
-import { Pet } from "entities/pet.entity";
+import { Pet } from "src/entities/pet.entity";
 import { resolve } from "path";
 import { AddPetDto } from "src/dtos/pet/add.pet.dto";
 import { EditPetDto } from "src/dtos/pet/edit.pet.dto";
