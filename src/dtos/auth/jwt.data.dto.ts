@@ -1,14 +1,16 @@
-export class JwtDataAdminDto {
-    adminId: number;
-    username: string;
+export class JwtDataDto {
+    role: "admin" | "user"
+    id: number;
+    identity: string;
     exp: number; //unix time stamp
     ip: string;
     ua: string;
 
     toPlainObject() {
         return {
-            adminId: this.adminId,
-            username: this.username,
+            role: this.role,
+            id: this.id,
+            identity: this.identity,
             exp: this.exp,
             ip: this.ip,
             ua: this.ua

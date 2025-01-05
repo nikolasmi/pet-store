@@ -43,7 +43,7 @@ import { AuthMiddleware } from './middlewares/auth.middleware';
   ],
   controllers: [AppController, AdminController, UserController, PetController, AuthController],
   providers: [AdminService, UserService, PetService],
-  exports: [AdminService],
+  exports: [AdminService, UserService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

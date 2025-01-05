@@ -20,6 +20,16 @@ export class UserService {
         return this.user.findOne({where: {userId: id}})
     }
 
+    async getByEmail(email: string): Promise<User | null> {
+        const user = await this.user.findOne({where: {email: email}});
+
+        if(user) {
+            return user;
+        }
+
+        return null;
+    }
+
     add(data: AddUserDto): Promise<User | ApiResponse> {
         const crypto = require('crypto');
     
@@ -45,7 +55,7 @@ export class UserService {
                 .then(data => resolve(data))
                 .catch(error => {
                     const response: ApiResponse = new ApiResponse("error", -1001, "Failed to save user.");
-                    resolve(response); // Dodajte resolve ovde
+                    resolve(response); 
                 });
         });
     }
