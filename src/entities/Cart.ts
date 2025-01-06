@@ -20,7 +20,7 @@ export class Cart {
   @Column("int", { name: "user_id", unsigned: true })
   userId: number;
 
-  @Column("datetime", { name: "created_at" })
+  @Column("timestamp", { name: "created_at", default: () => "CURRENT_TIMESTAMP" })
   createdAt: Date;
 
   @ManyToOne(() => User, (user) => user.carts, {

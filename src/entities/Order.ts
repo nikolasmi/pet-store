@@ -12,14 +12,15 @@ import { User } from "./User";
 import { OrderItems } from "./OrderItems";
 
 @Index("fk_order_cart_id", ["cartId"], {})
-@Index("fk_order_user_id", ["userId"], {})
+//@Index("fk_order_user_id", ["userId"], {})
+@Index("uq_order_cart_id", ["cartId"], { unique: true })
 @Entity("order", { schema: "petstore" })
 export class Order {
   @PrimaryGeneratedColumn({ type: "int", name: "order_id", unsigned: true })
   orderId: number;
 
-  @Column("int", { name: "user_id", unsigned: true })
-  userId: number;
+  // @Column("int", { name: "user_id", unsigned: true })
+  // userId: number;
 
   @Column("enum", {
     name: "status",
@@ -44,12 +45,12 @@ export class Order {
   @JoinColumn([{ name: "cart_id", referencedColumnName: "cartId" }])
   cart: Cart;
 
-  @ManyToOne(() => User, (user) => user.orders, {
-    onDelete: "RESTRICT",
-    onUpdate: "CASCADE",
-  })
-  @JoinColumn([{ name: "user_id", referencedColumnName: "userId" }])
-  user: User;
+  // @ManyToOne(() => User, (user) => user.orders, {
+  //   onDelete: "RESTRICT",
+  //   onUpdate: "CASCADE",
+  // })
+  // @JoinColumn([{ name: "user_id", referencedColumnName: "userId" }])
+  // user: User;
 
   @OneToMany(() => OrderItems, (orderItems) => orderItems.order)
   orderItems: OrderItems[];

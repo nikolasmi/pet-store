@@ -10,7 +10,7 @@ import { PetService } from './services/pet/pet.service';
 import { PetController } from './controllers/api/pet.controller';
 import { AuthController } from './controllers/api/auth.controller';
 import { AuthMiddleware } from './middlewares/auth.middleware';
-import { OrderService } from './services/order/order.service';
+import { CartService } from './services/cart/cart.service';
 import { Admin } from './entities/Admin';
 import { Order } from './entities/Order';
 import { OrderItems } from './entities/OrderItems';
@@ -19,6 +19,7 @@ import { Review } from './entities/Review';
 import { User } from './entities/User';
 import { Cart } from './entities/Cart';
 import { CartPet } from './entities/CartPet';
+import { UserCartController } from './controllers/api/user.cart.controller';
 
 @Module({
   imports: [
@@ -45,11 +46,13 @@ import { CartPet } from './entities/CartPet';
       User,
       Pet,
       Order,
-      OrderItems
+      OrderItems,
+      Cart,
+      CartPet
     ])
   ],
-  controllers: [AppController, AdminController, UserController, PetController, AuthController],
-  providers: [AdminService, UserService, PetService, OrderService],
+  controllers: [AppController, AdminController, UserController, PetController, AuthController, UserCartController],
+  providers: [AdminService, UserService, PetService, CartService],
   exports: [AdminService, UserService],
 })
 export class AppModule implements NestModule {
