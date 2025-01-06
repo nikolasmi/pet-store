@@ -6,12 +6,12 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Pet } from "./pet.entity";
-import { User } from "./user.entity";
+import { Pet } from "./Pet";
+import { User } from "./User";
 
-@Index("fk_review_user_id", ["userId"], {})
 @Index("fk_review_pet_id", ["petId"], {})
-@Entity("review")
+@Index("fk_review_user_id", ["userId"], {})
+@Entity("review", { schema: "petstore" })
 export class Review {
   @PrimaryGeneratedColumn({ type: "int", name: "review_id", unsigned: true })
   reviewId: number;

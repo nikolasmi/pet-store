@@ -1,7 +1,9 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Review } from "./review.entity";
+import { Cart } from "./Cart";
+import { Order } from "./Order";
+import { Review } from "./Review";
 
-@Entity("user")
+@Entity("user", { schema: "petstore" })
 export class User {
   @PrimaryGeneratedColumn({ type: "int", name: "user_id", unsigned: true })
   userId: number;
@@ -23,6 +25,12 @@ export class User {
 
   @Column("varchar", { name: "favorite_type", length: 255 })
   favoriteType: string;
+
+  @OneToMany(() => Cart, (cart) => cart.user)
+  carts: Cart[];
+
+  @OneToMany(() => Order, (order) => order.user)
+  orders: Order[];
 
   @OneToMany(() => Review, (review) => review.user)
   reviews: Review[];

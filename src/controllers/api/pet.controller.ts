@@ -1,10 +1,9 @@
 import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
-import { Pet } from "src/entities/pet.entity";
 import { AddPetDto } from "src/dtos/pet/add.pet.dto";
 import { EditPetDto } from "src/dtos/pet/edit.pet.dto";
+import { Pet } from "src/entities/Pet";
 import { ApiResponse } from "src/misc/api.response.class";
 import { PetService } from "src/services/pet/pet.service";
-import { dataCollectionPhase } from "typeorm-model-generator/dist/src/Engine";
 
 @Controller('api/pet')
 export class PetController {

@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
-import { User } from "src/entities/user.entity";
 import { AddUserDto } from "src/dtos/user/add.user.dto";
 import { EditUserDto } from "src/dtos/user/edit.user.dto";
+import { User } from "src/entities/User";
 import { ApiResponse } from "src/misc/api.response.class";
 import { UserService } from "src/services/user/user.service";
 

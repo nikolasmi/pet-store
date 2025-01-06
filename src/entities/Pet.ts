@@ -1,8 +1,9 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { OrderItems } from "./orderItems.entity";
-import { Review } from "./review.entity";
+import { CartPet } from "./CartPet";
+import { OrderItems } from "./OrderItems";
+import { Review } from "./Review";
 
-@Entity("pet")
+@Entity("pet", { schema: "petstore" })
 export class Pet {
   @PrimaryGeneratedColumn({ type: "int", name: "pet_id", unsigned: true })
   petId: number;
@@ -37,6 +38,9 @@ export class Pet {
 
   @Column("varchar", { name: "image_path", length: 255 })
   imagePath: string;
+
+  @OneToMany(() => CartPet, (cartPet) => cartPet.pet)
+  cartPets: CartPet[];
 
   @OneToMany(() => OrderItems, (orderItems) => orderItems.pet)
   orderItems: OrderItems[];
