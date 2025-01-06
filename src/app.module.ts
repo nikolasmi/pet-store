@@ -20,6 +20,7 @@ import { User } from './entities/User';
 import { Cart } from './entities/Cart';
 import { CartPet } from './entities/CartPet';
 import { UserCartController } from './controllers/api/user.cart.controller';
+import { OrderService } from './services/order/order.service';
 
 @Module({
   imports: [
@@ -52,7 +53,7 @@ import { UserCartController } from './controllers/api/user.cart.controller';
     ])
   ],
   controllers: [AppController, AdminController, UserController, PetController, AuthController, UserCartController],
-  providers: [AdminService, UserService, PetService, CartService],
+  providers: [AdminService, UserService, PetService, CartService, OrderService],
   exports: [AdminService, UserService],
 })
 export class AppModule implements NestModule {
