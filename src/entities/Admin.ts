@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import * as Validator from 'class-validator';
 
 @Entity("admin", { schema: "petstore" })
 export class Admin {
@@ -6,6 +7,7 @@ export class Admin {
   adminId: number;
 
   @Column("varchar", { name: "username", length: 64 })
+  @Validator.IsNotEmpty()
   username: string;
 
   @Column("varchar", { name: "password", length: 255 })

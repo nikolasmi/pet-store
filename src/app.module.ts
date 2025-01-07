@@ -21,6 +21,7 @@ import { Cart } from './entities/Cart';
 import { CartPet } from './entities/CartPet';
 import { UserCartController } from './controllers/api/user.cart.controller';
 import { OrderService } from './services/order/order.service';
+import { AdminOrderController } from './controllers/api/admin.order.controller';
 
 @Module({
   imports: [
@@ -52,7 +53,7 @@ import { OrderService } from './services/order/order.service';
       CartPet
     ])
   ],
-  controllers: [AppController, AdminController, UserController, PetController, AuthController, UserCartController],
+  controllers: [AppController, AdminController, UserController, PetController, AuthController, UserCartController, AdminOrderController],
   providers: [AdminService, UserService, PetService, CartService, OrderService],
   exports: [AdminService, UserService],
 })

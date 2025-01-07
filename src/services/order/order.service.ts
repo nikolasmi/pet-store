@@ -58,4 +58,29 @@ export class OrderService {
     });
   }
 
+  async getById(orderId: number) {
+    return await this.order.findOne({
+        where: {orderId: orderId},
+        relations: [
+            "cart",
+            "cart.user",
+            "cart.cartPets",
+            "cart.cartPets.pet"
+        ],
+    });
+  }
+
+  async changeStatus(orderId: number, newStatus: "u toku" | "pristiglo" | "otkazano") {
+    const order = await this.getById(orderId);
+
+    if(!order) {
+        return new ApiResponse('error', -9001, "order not found");
+    }
+
+    order.status = newStatus;
+    await this.order.save(order);
+    
+    return await this.getById(orderId);
+  }
+
 }

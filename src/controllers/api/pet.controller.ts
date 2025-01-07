@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Put, Query } from "@nestjs/common";
 import { AddPetDto } from "src/dtos/pet/add.pet.dto";
 import { EditPetDto } from "src/dtos/pet/edit.pet.dto";
 import { Pet } from "src/entities/Pet";
@@ -12,8 +12,14 @@ export class PetController {
     ) {}
 
     @Get()
-    getAll(): Promise<Pet[] | ApiResponse>{
-        return this.petService.getAll();
+    getAll(
+        @Query('minPrice') minPrice?: number,
+        @Query('minAge') minAge?: number,
+        @Query('type') type?: string,
+        @Query('size') size?: string,
+        @Query('availabe') availabe?: string,
+    ): Promise<Pet[] | ApiResponse> {
+        return this.petService.getAll({ minPrice, minAge, type, size, availabe });
     }
 
     @Get(':id')
@@ -37,5 +43,4 @@ export class PetController {
         return this.petService.editById(id, data);        
     }
     
-
 }
