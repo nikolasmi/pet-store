@@ -106,4 +106,8 @@ export class CartService {
     return await this.getById(cartId);
   }
 
+  async removePetFromCart(cartId: number, cartPetId: number): Promise<void> {
+    await this.cartPet.delete({ cartId, cartPetId });
+  }
+
 }

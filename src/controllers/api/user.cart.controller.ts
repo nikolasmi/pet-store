@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from "@nestjs/common";
 import { Request } from "express";
 import { addPetToCartDto } from "src/dtos/cart/add.pet.to.cart.dto";
 import { editPetInCartDto } from "src/dtos/cart/edit.pet.in.cart.dto";
@@ -29,9 +29,8 @@ export class UserCartController {
 
     
     @Get()
-    //@SetMetadata('allow_to_roles', ['admin', 'user'])
     @UseGuards(RoleCheckerGuard)
-    @allowToRoles('admin', 'user')
+    @allowToRoles("user", "admin")
     async getCurrentCart(@Req() req: Request): Promise<Cart> {
         return await this.getActiveCartForUserId(req.token.id);
     }
@@ -56,8 +55,20 @@ export class UserCartController {
     @UseGuards(RoleCheckerGuard)
     @allowToRoles("user", "admin")
     async makeOrder(@Req() req: Request): Promise<Order | ApiResponse> {
+    const cart = await this.getActiveCartForUserId(req.token.id);
+    
+    const totalPrice = req.body.totalPrice;
+
+    return await this.orderService.add(cart.cartId, totalPrice);
+    }
+
+    @Delete(':cartPetId')
+    @UseGuards(RoleCheckerGuard)
+    @allowToRoles("user", "admin")
+    async removeFromCart(@Param('cartPetId') cartPetId: number, @Req() req: Request): Promise<Cart> {
         const cart = await this.getActiveCartForUserId(req.token.id);
-        return await this.orderService.add(cart.cartId);
+        await this.cartService.removePetFromCart(cart.cartId, cartPetId);
+        return await this.cartService.getById(cart.cartId);
     }
     
 }

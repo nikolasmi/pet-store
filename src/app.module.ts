@@ -22,6 +22,8 @@ import { CartPet } from './entities/CartPet';
 import { UserCartController } from './controllers/api/user.cart.controller';
 import { OrderService } from './services/order/order.service';
 import { AdminOrderController } from './controllers/api/admin.order.controller';
+import { ReviewService } from './services/review/review.service';
+import { ReviewController } from './controllers/api/review.controller';
 
 @Module({
   imports: [
@@ -50,18 +52,21 @@ import { AdminOrderController } from './controllers/api/admin.order.controller';
       Order,
       OrderItems,
       Cart,
-      CartPet
+      CartPet,
+      Review
     ])
   ],
-  controllers: [AppController, AdminController, UserController, PetController, AuthController, UserCartController, AdminOrderController],
-  providers: [AdminService, UserService, PetService, CartService, OrderService],
+  controllers: [AppController, AdminController, UserController, ReviewController , PetController, AuthController, UserCartController, AdminOrderController],
+  providers: [AdminService, UserService, PetService, CartService, OrderService, ReviewService],
   exports: [AdminService, UserService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(AuthMiddleware)
-      .exclude('auth/*')
-      .forRoutes('api/*')
+    .apply(AuthMiddleware)
+    .exclude('auth/*')
+    .exclude('api/user')
+    .exclude('api/pet')
+    .forRoutes('api/cart', 'api/order', 'api/review')
   }
 }

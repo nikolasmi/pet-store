@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Cart } from "src/entities/Cart";
 import { Order } from "src/entities/Order";
+import { User } from "src/entities/User";
 import { ApiResponse } from "src/misc/api.response.class";
 import { Or, Repository } from "typeorm";
 
@@ -13,48 +14,43 @@ export class OrderService {
 
     @InjectRepository(Order)
     private readonly order: Repository<Order>,
+
+    @InjectRepository(User)
+    private readonly user: Repository<User>
   ) {}
 
-  async add(cartId: number): Promise<Order | ApiResponse> {
+  async add(cartId: number, totalPrice: number): Promise<Order | ApiResponse> {
     const order = await this.order.findOne({
-        where: {
-            cartId: cartId,
-        },
+      where: { cartId },
     });
-
-    if(order) {
-        return new ApiResponse("error", -7001, "cannot make order");
+  
+    if (order) {
+      return new ApiResponse("error", -7001, "cannot make order");
     }
-
+  
     const cart = await this.cart.findOne({
-        where: {cartId: cartId},
-        relations: ["cartPets"],
+      where: { cartId },
+      relations: ["cartPets"],
     });
-
+  
     if (!cart) {
-        return new ApiResponse("error", -7002, 'cart not found')
+      return new ApiResponse("error", -7002, 'cart not found');
     }
-
-    if(cart.cartPets.length === 0) {
-        return new ApiResponse("error", -7003, 'cart is empty')
+  
+    if (cart.cartPets.length === 0) {
+      return new ApiResponse("error", -7003, 'cart is empty');
     }
-
+  
     const newOrder: Order = new Order();
     newOrder.cartId = cartId;
     newOrder.status = "u toku";
-    newOrder.orderItems = newOrder.orderItems || [];  
-    newOrder.totalPrice = newOrder.orderItems.reduce((sum, item) => sum + item.price, 0);
-
+    newOrder.totalPrice = totalPrice; 
+  
     const savedOrder = await this.order.save(newOrder);
-
+  
     return await this.order.findOne({
-        where: { orderId: savedOrder.orderId },
-        relations: [
-            "cart",
-            "cart.user",
-            "cart.cartPets",
-            "cart.cartPets.pet"
-        ],
+      where: { orderId: savedOrder.orderId },
+      relations: ["cart", "cart.user", "cart.cartPets", "cart.cartPets.pet"],
     });
   }
 
@@ -68,6 +64,29 @@ export class OrderService {
             "cart.cartPets.pet"
         ],
     });
+  }
+
+  async getOrdersForUser(id: number): Promise<Order[] | ApiResponse> {
+    const orders = await this.order.find({
+      where: {
+        cart: {
+          userId: id, 
+        },
+      },
+      relations: [
+        "cart",
+        "cart.user",
+        "cart.cartPets",
+        "cart.cartPets.pet",
+        "orderItems",
+      ],
+    });
+
+    if (orders.length === 0) {
+      return new ApiResponse('error', -9002, "No orders found for this user");
+    }
+
+    return orders;
   }
 
   async changeStatus(orderId: number, newStatus: "u toku" | "pristiglo" | "otkazano") {

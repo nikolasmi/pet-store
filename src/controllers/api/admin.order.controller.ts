@@ -14,7 +14,7 @@ export class AdminOrderController {
 
     @Get(':id')
     @UseGuards(RoleCheckerGuard)
-    @allowToRoles('admin')
+    @allowToRoles('admin', 'user')
     async get(@Param('id') id:number): Promise<Order | ApiResponse> {
         const order = await this.orderService.getById(id);
 
@@ -25,9 +25,16 @@ export class AdminOrderController {
         return order;
     }
 
+    @Get('user/:userId')
+    @UseGuards(RoleCheckerGuard)
+    @allowToRoles('admin', 'user')
+    async getOrdersForUser(@Param('id') userId: number): Promise<Order[] | ApiResponse> {
+        return await this.orderService.getOrdersForUser(userId);
+    }
+
     @Patch(':id')
     @UseGuards(RoleCheckerGuard)
-    @allowToRoles('admin')
+    @allowToRoles('admin', 'user')
     async changeStatus(@Param('id') id:number, @Body() data: ChangeOrderStatus): Promise<Order | ApiResponse> {
         return await this.orderService.changeStatus(id, data.newStatus);
     }
