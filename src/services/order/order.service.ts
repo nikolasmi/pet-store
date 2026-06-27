@@ -66,11 +66,11 @@ export class OrderService {
     });
   }
 
-  async getOrdersForUser(id: number): Promise<Order[] | ApiResponse> {
+  async getOrdersForUser(id: number): Promise<Order[]> {
     const orders = await this.order.find({
       where: {
         cart: {
-          userId: id, 
+          userId: id,
         },
       },
       relations: [
@@ -80,12 +80,12 @@ export class OrderService {
         "cart.cartPets.pet",
         "orderItems",
       ],
+      order: {
+        createdAt: "DESC",
+      },
     });
 
-    if (orders.length === 0) {
-      return new ApiResponse('error', -9002, "No orders found for this user");
-    }
-
+    // Bez porudžbina vraćamo prazan niz (frontend prikazuje prazno stanje)
     return orders;
   }
 
